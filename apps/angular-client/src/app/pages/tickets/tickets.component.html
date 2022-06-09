@@ -1,0 +1,30 @@
+<section>
+  <h2>Tickets</h2>
+  <acme-create-ticket (ticketAdded$)="refresh()"></acme-create-ticket>
+
+  <div class="table-container">
+    <ng-template #showSpinner>
+      <acme-spinner [scale]="1.5"></acme-spinner>
+    </ng-template>
+    <table *ngIf="tickets$ | async as tickets; else showSpinner">
+      <tr>
+        <th>ID</th>
+        <th></th>
+        <th>Description</th>
+        <th>AssigneeId</th>
+        <th>Completed</th>
+      </tr>
+      <tr *ngFor="let t of tickets">
+        <td>{{t.id}}</td>
+        <td><a [routerLink]="'/details/' + t.id">Open</a></td>
+        <td>{{t.description}}</td>
+        <td>{{t.assigneeId}}</td>
+        <td>
+          <input acmeTicketCompletion #ticketCompletion="ticketCompletion" type="checkbox" [checked]="t.completed"
+                 (click)="ticketCompletion.toggle(t.id, t.completed)"
+                 (completionStatusChanged)="refresh()"/>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>

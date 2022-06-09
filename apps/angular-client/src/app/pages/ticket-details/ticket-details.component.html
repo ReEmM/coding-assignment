@@ -1,0 +1,25 @@
+<section>
+  <ng-template #showSpinner>
+    <acme-spinner [scale]="1.5"></acme-spinner>
+  </ng-template>
+
+  <ng-container *ngIf="ticket; else showSpinner">
+    <h2>Tickets {{ticket.id}}</h2>
+
+    <ng-container *ngIf="!editMode">
+      <div>
+        <h4>Description</h4>
+        <p>{{ticket.description}}</p>
+
+        <h4>Assignee</h4>
+        <p>{{ticket.assigneeId}}</p>
+
+        <h4>Completed</h4>
+        <input acmeTicketCompletion #ticketCompletion="ticketCompletion" type="checkbox" [checked]="ticket.completed"
+               (click)="ticketCompletion.toggle(ticket.id, ticket.completed)"
+               (completionStatusChanged)="refresh()"/>
+      </div>
+    </ng-container>
+
+  </ng-container>
+</section>
